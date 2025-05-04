@@ -18,7 +18,7 @@ spec:
         path: './charts'
         helm:
           valueFiles:
-            - "{{ if eq .name \"in-cluster\" }}.platform/mgmt.yaml{{ else }}.platform/{{ .metadata.labels.env }}.yaml{{ end }}"
+            - "{{ if eq .name \"in-cluster\" }}.platform/mgnt.yaml{{ else }}.platform/{{ .metadata.labels.env }}.yaml{{ end }}"
       destination:
         server: '{{ .server }}'
         namespace: karpenter

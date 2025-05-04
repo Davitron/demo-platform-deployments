@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-karpenter
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: 'Karpenter Project for managing node autoscaling'
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: "*"
+      name: "*"
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  roles: []

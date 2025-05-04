@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-istio
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: 'Istio Project for managing service mesh'
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: "*"
+      name: "*"
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  roles: []

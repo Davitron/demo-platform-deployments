@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cert-manager
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - clusters: {}
+  template:
+    metadata:
+      name: 'cert-manager-{{ .name }}'
+    spec:
+      project: platform-cert-manager
+      source:
+        repoURL: https://github.com/Davitron/demo-platform-certmanager.git
+        targetRevision: HEAD
+        path: './charts'
+        helm:
+          valueFiles:
+            - "../{{ if eq .name \"in-cluster\" }}.platform/mgnt.yaml{{ else }}.platform/{{ .metadata.labels.env }}.yaml{{ end }}"
+      destination:
+        server: '{{ .server }}'
+        namespace: cert-manager
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: false
+        syncOptions:
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m

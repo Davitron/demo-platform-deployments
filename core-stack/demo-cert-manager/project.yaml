@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-cert-manager
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: 'Cert Manager Project for managing certificates'
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: "*"
+      name: "*"
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  roles: []

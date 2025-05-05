@@ -6,22 +6,32 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - clusters: {}
+    - matrix:
+        generators:
+          - clusters: {}
+          - list:
+              elements:
+                - appName: istio
+                  path: ./charts
+                  namespace: istio
+                - appName: istio-gateway
+                  path: ./gateway-chart
+                  namespace: istio-gateway
   template:
     metadata:
-      name: 'istio-{{ .name }}'
+      name: '{{ .appName }}-{{ .name }}'
     spec:
       project: platform-istio
       source:
         repoURL: https://github.com/Davitron/demo-platform-istio.git
         targetRevision: HEAD
-        path: './charts'
+        path: '{{ .path }}'
         helm:
           valueFiles:
             - "../{{ if eq .name \"in-cluster\" }}.platform/mgnt.yaml{{ else }}.platform/{{ .metadata.labels.env }}.yaml{{ end }}"
       destination:
         server: '{{ .server }}'
-        namespace: istio
+        namespace: '{{ .namespace }}'
       syncPolicy:
         automated:
           prune: true

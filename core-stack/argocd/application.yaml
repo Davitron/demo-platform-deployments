@@ -5,112 +5,12 @@ metadata:
 spec:
   project: argocd
   source:
-    repoURL: https://argoproj.github.io/argo-helm 
-    targetRevision: 7.8.14  
-    chart: argo-cd
-    helm:      
-      valuesObject:
-        global:
-          logging:
-            level: error
-        fullnameOverride: "argocd"
-        configs:
-          repositories:
-            karpenter:
-              url: public.ecr.aws/karpenter
-              enableOCI: "true"
-              type: helm
-          cm:
-            controller.diff.server.side: "true"
-            url: https://argocd.thecloudsninja.com
-            application.resourceTrackingMethod: annotation+label
-            # exec.enabled: true
-          params:
-            server.insecure: true
-
-        server:
-          serviceAccount:
-            annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::286747865976:role/argocd-management-role-management
-          extraArgs:
-            - --insecure
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: karpenter.sh/capacity-type
-                        operator: In
-                        values:
-                          - on-demand
-                          - spot
-
-        controller:
-          serviceAccount:
-            annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::286747865976:role/argocd-management-role-management
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: karpenter.sh/capacity-type
-                        operator: In
-                        values:
-                          - on-demand
-                          - spot
-
-        repoServer:
-          serviceAccount:
-            annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::286747865976:role/argocd-management-role-management
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: karpenter.sh/capacity-type
-                        operator: In
-                        values:
-                          - on-demand
-                          - spot
-
-        dex:
-          serviceAccount:
-            annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::286747865976:role/argocd-management-role-management
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: karpenter.sh/capacity-type
-                        operator: In
-                        values:
-                          - on-demand
-                          - spot
-
-        applicationSet:
-          serviceAccount:
-            annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::286747865976:role/argocd-management-role-management
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: karpenter.sh/capacity-type
-                        operator: In
-                        values:
-                          - on-demand
-                          - spot
-        
-          # ingress:
-          #   enabled: true
-          #   annotations:
-          #     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-          #   ingressClassName: istio
-          #   hostname: argocd.thecloudsninja.com
+    repoURL: https://github.com/Davitron/demo-platform-argocd.git
+    targetRevision: HEAD 
+    chart: ./charts
+    helm:
+      valuesFile:
+        - ../.platform/mgnt.yaml
 
   destination:
     name: in-cluster

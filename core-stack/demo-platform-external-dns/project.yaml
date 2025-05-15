@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-external-dns
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: 'External DNS Project for managing external DNS'
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: "*"
+      name: "*"
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  roles: []

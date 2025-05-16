@@ -6,7 +6,10 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - clusters: {}
+    - clusters:
+        selector:
+          matchLabels:
+            cluster_mode: management
   template:
     metadata:
       name: 'vault-{{ .name }}'

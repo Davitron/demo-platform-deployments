@@ -19,7 +19,7 @@ spec:
                   namespace: crossplane-config
   template:
     metadata:
-      name: '{{ .appName }}-{{ .name }}'
+      name: '{{ .appName }}-{{ if eq .name "in-cluster" }}mgnt{{ else }}{{ .metadata.labels.env }}{{ end }}'
     spec:
       project: platform-crossplane
       source:

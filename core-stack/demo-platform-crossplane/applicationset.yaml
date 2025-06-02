@@ -29,6 +29,11 @@ spec:
         helm:
           valueFiles:
             - "../{{ if eq .name \"in-cluster\" }}.platform/mgnt.yaml{{ else }}.platform/{{ .metadata.labels.env }}.yaml{{ end }}"
+          values: |
+            globals:
+              {{- with .metadata.annotations -}}
+              {{- toYaml . | nindent 2 -}}
+              {{- end }}
       destination:
         server: '{{ .server }}'
         namespace: '{{ .namespace }}'

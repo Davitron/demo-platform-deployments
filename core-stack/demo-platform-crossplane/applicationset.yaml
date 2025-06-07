@@ -31,9 +31,13 @@ spec:
             - "../{{ if eq .name \"in-cluster\" }}.platform/mgnt.yaml{{ else }}.platform/{{ .metadata.labels.env }}.yaml{{ end }}"
           values: |
             globals:
-              {{- with .metadata.annotations -}}
-              {{- toYaml . | nindent 2 -}}
+              {{- $filtered := dict }}
+              {{- range $k, $v := .metadata.annotations }}
+                {{- if and (ne $k "kubectl.kubernetes.io/last-applied-configuration") (ne $k "managed-by") }}
+                  {{- $_ := set $filtered $k $v }}
+                {{- end }}
               {{- end }}
+              {{- toYaml $filtered | nindent 2 }}
       destination:
         server: '{{ .server }}'
         namespace: '{{ .namespace }}'

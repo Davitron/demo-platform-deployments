@@ -1,0 +1,7 @@
+apiVersion: demo.platform.bank.com/v1alpha1
+kind: OnboardingClaim
+metadata:
+  name: test-k8s-operator
+spec:
+  addons:
+    dayzero: true

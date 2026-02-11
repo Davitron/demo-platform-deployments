@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Davitron/demo-platform-deployments.git
-    targetRevision: HEAD
+    targetRevision: refs/heads/genesis
     path: "./"
     directory:
       recurse: true

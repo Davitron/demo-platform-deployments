@@ -7,12 +7,12 @@ spec:
   sources:
     - repoURL: https://argoproj.github.io/argo-helm 
       chart: argo-cd
-      targetRevision: 7.8.14  
+      targetRevision: 9.4.1
       helm:      
         valueFiles:
           - $values/.platform/mgnt.yaml
     - repoURL: https://github.com/Davitron/demo-platform-argocd.git
-      targetRevision: HEAD
+      targetRevision: refs/heads/genesis
       ref: values
   destination:
     name: in-cluster

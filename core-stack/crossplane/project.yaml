@@ -5,11 +5,11 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  description: Argo CD
+  description: Crossplane project
   sourceRepos:
     - '*'
   destinations:
-    - namespace: argocd
+    - namespace: crossplane
       server: https://kubernetes.default.svc
       name: in-cluster
   clusterResourceWhitelist:

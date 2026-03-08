@@ -4,16 +4,13 @@ metadata:
   name: crossplane
 spec:
   project: crossplane
-  sources:
-    - repoURL: https://charts.crossplane.io/stable
-      chart: crossplane
-      targetRevision: v2.1.4
-      helm:      
-        valueFiles:
-          - $values/.platform/mgnt.yaml
-    - repoURL: https://github.com/Davitron/demo-platform-crossplane.git
-      targetRevision: refs/heads/genesis
-      ref: values
+  source:
+    repoURL: https://github.com/Davitron/demo-platform-crossplane.git
+    targetRevision: refs/heads/genesis
+    path: charts
+    helm:      
+      valueFiles:
+        - $values/.platform/mgnt.yaml
   destination:
     name: in-cluster
     namespace: crossplane
